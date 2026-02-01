@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    /* #0A0A0A */
+    --foreground: 0 0% 100%;
+    /* #FFFFFF */
+
+    --card: 0 0% 8%;
+    /* #141414 */
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 25 100% 50%;
+    /* #FF6B00 - Orange */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 15%;
+    /* #262626 */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 50%;
+    /* #808080 */
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 25 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    /* #E53935 */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    /* #262626 */
+    --input: 0 0% 15%;
+    --ring: 25 100% 50%;
+
+    --radius: 2px;
+    /* sharp corners */
+
+    /* Charting Tones) */
+    --chart-1: 25 100% 50%;
+    --chart-2: 142 70% 45%;
+    --chart-3: 0 84% 60%;
+    --chart-4: 0 0% 50%;
+    --chart-5: 0 0% 30%;
+
+    /* Sidebar - Matching Agent Sidebar */
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 50%;
+    --sidebar-primary: 25 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 25 100% 50%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 25 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono uppercase tracking-wider;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted/30 hover:bg-primary;
+  }
+}
