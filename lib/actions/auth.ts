@@ -66,7 +66,7 @@ export async function signIn(formData: FormData): Promise<AuthActionResult> {
 export async function signInWithProvider(provider: "github" | "google") {
     const supabase = await createClient();
 
-    let siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
     // if (!siteUrl.startsWith("http")) {
     //     siteUrl = `https://${siteUrl}`;
     // }
