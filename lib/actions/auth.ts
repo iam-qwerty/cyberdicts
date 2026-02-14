@@ -66,10 +66,10 @@ export async function signIn(formData: FormData): Promise<AuthActionResult> {
 export async function signInWithProvider(provider: "github" | "google") {
     const supabase = await createClient();
 
-    let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    if (!siteUrl.startsWith("http")) {
-        siteUrl = `https://${siteUrl}`;
-    }
+    let siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    // if (!siteUrl.startsWith("http")) {
+    //     siteUrl = `https://${siteUrl}`;
+    // }
 
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
