@@ -18,7 +18,7 @@ export default async function DashboardLayout({
     const supabase = await createClient();
     const { data: profile } = await supabase
         .from("profiles")
-        .select("name")
+        .select("name, role")
         .eq("id", user.id)
         .single();
 
@@ -34,7 +34,7 @@ export default async function DashboardLayout({
 
     return (
         <div className="min-h-screen bg-background">
-            <Sidebar userName={profile?.name || user.email} userStreak={maxStreak} />
+            <Sidebar userName={profile?.name || user.email} userStreak={maxStreak} isAdmin={profile?.role === 'admin'} />
 
             {/* Main content */}
             <main className="lg:pl-64 pt-14 lg:pt-0 min-h-screen">

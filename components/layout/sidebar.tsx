@@ -11,6 +11,7 @@ import {
     Flame,
     Menu,
     X,
+    Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ import { useState } from "react";
 interface SidebarProps {
     userName?: string;
     userStreak?: number;
+    isAdmin?: boolean;
 }
 
 const navItems = [
@@ -29,16 +31,21 @@ const navItems = [
     { href: "/profile", label: "Profile", icon: User },
 ];
 
-export function Sidebar({ userName, userStreak = 0 }: SidebarProps) {
+export function Sidebar({ userName, userStreak = 0, isAdmin = false }: SidebarProps) {
     const pathname = usePathname();
     const [mobileOpen, setMobileOpen] = useState(false);
+
+    const allNavItems = [
+        ...navItems,
+        ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield }] : []),
+    ];
 
     return (
         <>
             {/* Mobile Header */}
             <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-background/95 backdrop-blur border-b border-border flex items-center justify-between px-4">
                 <Link href="/dashboard" className="flex items-center gap-2">
-                    <span className="text-primary font-bold text-lg tracking-widest">CYBERDICT</span>
+                    <span className="text-primary font-bold text-lg tracking-widest">Cyberdicts</span>
                 </Link>
                 <Button
                     variant="ghost"
@@ -68,7 +75,7 @@ export function Sidebar({ userName, userStreak = 0 }: SidebarProps) {
                 {/* Logo */}
                 <div className="h-14 flex items-center px-4 border-b border-sidebar-border">
                     <Link href="/dashboard" className="flex items-center gap-2">
-                        <span className="text-primary font-bold text-lg tracking-widest">CYBERDICT</span>
+                        <span className="text-primary font-bold text-lg tracking-widest">Cyberdicts</span>
                     </Link>
                 </div>
 
@@ -92,7 +99,7 @@ export function Sidebar({ userName, userStreak = 0 }: SidebarProps) {
 
                 {/* Navigation */}
                 <nav className="flex-1 p-2 space-y-1">
-                    {navItems.map((item) => {
+                    {allNavItems.map((item) => {
                         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
                         return (
                             <Link

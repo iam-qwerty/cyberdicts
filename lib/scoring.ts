@@ -1,5 +1,5 @@
 /**
- * Cyberdict Scoring System
+ * Cyberdicts Scoring System
  * 
  * Configurable scoring rules for gamification.
  * All values are easily adjustable for future tweaking.

@@ -10,7 +10,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cyberdict - Gamified Cybersecurity Certification Prep",
+  title: "Cyberdicts - Gamified Cybersecurity Certification Prep",
   description:
     "Join small, focused leagues, perform daily micro-tasks, gain points and streaks, and collaborate with peers to boost your certification pass rate.",
   keywords: [

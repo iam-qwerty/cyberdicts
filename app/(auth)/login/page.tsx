@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Shield, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +11,9 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { signIn, signInWithProvider } from "@/lib/actions/auth";
 
-export default function LoginPage() {
+function LoginForm() {
+    const searchParams = useSearchParams();
+    const urlError = searchParams.get("error");
     const [state, formAction, isPending] = useActionState(
         async (_prevState: { error?: string } | null, formData: FormData) => {
             return await signIn(formData);
@@ -54,9 +57,9 @@ export default function LoginPage() {
 
                 {/* Email form */}
                 <form action={formAction} className="space-y-4">
-                    {state?.error && (
+                    {(state?.error || urlError) && (
                         <div className="p-3 rounded bg-destructive/10 border border-destructive/30 text-destructive text-sm">
-                            {state.error}
+                            {state?.error || urlError}
                         </div>
                     )}
 
@@ -106,5 +109,13 @@ export default function LoginPage() {
                 </p>
             </CardFooter>
         </Card>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+            <LoginForm />
+        </Suspense>
     );
 }

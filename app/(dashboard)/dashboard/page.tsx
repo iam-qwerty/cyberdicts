@@ -1,4 +1,5 @@
 import { createClient, getUser } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/header";
 import { TaskCard } from "@/components/ui/task-card";
 import { Leaderboard } from "@/components/ui/leaderboard";
@@ -11,6 +12,9 @@ import { canCheckIn } from "@/lib/scoring";
 
 export default async function DashboardPage() {
     const user = await getUser();
+    if (!user) {
+        redirect("/login");
+    }
     const supabase = await createClient();
 
     // Get user's leagues with streak info

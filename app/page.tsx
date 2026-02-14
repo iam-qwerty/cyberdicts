@@ -49,7 +49,7 @@ export default function LandingPage() {
         <div className="h-full flex items-center justify-between px-4">
           <div className="flex items-center gap-2">
             <Shield className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg tracking-widest">CYBERDICT</span>
+            <span className="font-bold text-lg tracking-widest">Cyberdicts</span>
           </div>
           <div className="flex items-center gap-2">
             <Link href="/login">
@@ -167,7 +167,7 @@ export default function LandingPage() {
         <div className="container max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Shield className="h-4 w-4" />
-            <span>Cyberdict © 2026</span>
+            <span>Cyberdicts © 2026</span>
           </div>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Link href="#" className="hover:text-foreground transition-colors">

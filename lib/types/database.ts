@@ -1,4 +1,4 @@
-// Database types for Cyberdict
+// Database types for Cyberdicts
 // These match the Supabase schema defined in supabase/schema.sql
 
 export type UserRole = "user" | "admin";

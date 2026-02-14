@@ -3,12 +3,15 @@ import { notFound, redirect } from "next/navigation";
 import { Header } from "@/components/layout/header";
 import { TaskCard } from "@/components/ui/task-card";
 import { Leaderboard } from "@/components/ui/leaderboard";
+import { QuizCard } from "@/components/ui/quiz-player";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Calendar, Copy, Trophy, MessageSquare } from "lucide-react";
+import { Users, Calendar, Copy, Trophy, MessageSquare, BookOpen, Plus } from "lucide-react";
 import { canCheckIn } from "@/lib/scoring";
 import { LeagueChat } from "./chat";
+import Link from "next/link";
 
 export default async function LeagueDetailPage({
     params,
@@ -73,6 +76,30 @@ export default async function LeagueDetailPage({
         .from("league_memberships")
         .select("id", { count: "exact" })
         .eq("league_id", id);
+
+    // Get quizzes for this league
+    const { data: quizzes } = await supabase
+        .from("quizzes")
+        .select("id, title, description, question_count, created_at")
+        .eq("league_id", id)
+        .order("created_at", { ascending: false });
+
+    // Get user's quiz attempts
+    const quizIds = quizzes?.map((q) => q.id) || [];
+    let attemptCounts: Record<string, number> = {};
+    if (quizIds.length > 0) {
+        const { data: attempts } = await supabase
+            .from("quiz_attempts")
+            .select("quiz_id")
+            .eq("user_id", user!.id)
+            .in("quiz_id", quizIds);
+        if (attempts) {
+            attemptCounts = attempts.reduce((acc, a) => {
+                acc[a.quiz_id] = (acc[a.quiz_id] || 0) + 1;
+                return acc;
+            }, {} as Record<string, number>);
+        }
+    }
 
     return (
         <div>
@@ -156,12 +183,16 @@ export default async function LeagueDetailPage({
                 </div>
             </div>
 
-            {/* Tabs for Leaderboard and Chat */}
+            {/* Tabs for Leaderboard, Quizzes, and Chat */}
             <Tabs defaultValue="leaderboard">
                 <TabsList>
                     <TabsTrigger value="leaderboard" className="gap-1">
                         <Trophy className="h-3 w-3" />
                         Leaderboard
+                    </TabsTrigger>
+                    <TabsTrigger value="quizzes" className="gap-1">
+                        <BookOpen className="h-3 w-3" />
+                        Quizzes
                     </TabsTrigger>
                     <TabsTrigger value="chat" className="gap-1">
                         <MessageSquare className="h-3 w-3" />
@@ -177,6 +208,47 @@ export default async function LeagueDetailPage({
                             title="League Leaderboard"
                             maxHeight="500px"
                         />
+                    </div>
+                </TabsContent>
+
+                <TabsContent value="quizzes" className="mt-4">
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-sm font-semibold text-muted-foreground">AVAILABLE QUIZZES</h3>
+                            <Link href={`/leagues/${id}/quiz/create`}>
+                                <Button size="sm" variant="outline" className="gap-1">
+                                    <Plus className="h-3 w-3" />
+                                    Create Quiz
+                                </Button>
+                            </Link>
+                        </div>
+                        {quizzes && quizzes.length > 0 ? (
+                            <div className="grid sm:grid-cols-2 gap-3">
+                                {quizzes.map((quiz) => (
+                                    <QuizCard
+                                        key={quiz.id}
+                                        quiz={quiz}
+                                        leagueId={id}
+                                        attemptCount={attemptCounts[quiz.id] || 0}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <Card className="border-dashed">
+                                <CardContent className="py-8 text-center">
+                                    <BookOpen className="h-8 w-8 mx-auto mb-3 text-muted-foreground/50" />
+                                    <p className="text-sm text-muted-foreground mb-3">
+                                        No quizzes yet.
+                                    </p>
+                                    <Link href={`/leagues/${id}/quiz/create`}>
+                                        <Button size="sm" className="gap-1">
+                                            <Plus className="h-3 w-3" />
+                                            Create the first quiz
+                                        </Button>
+                                    </Link>
+                                </CardContent>
+                            </Card>
+                        )}
                     </div>
                 </TabsContent>
 
