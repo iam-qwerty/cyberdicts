@@ -60,7 +60,7 @@ export default async function LeaderboardPage() {
             />
 
             <Tabs defaultValue="global">
-                <TabsList className="mb-4">
+                <TabsList className="mb-4 overflow-x-auto flex-nowrap">
                     <TabsTrigger value="global">Global</TabsTrigger>
                     {certifications?.map((cert) => (
                         <TabsTrigger key={cert.id} value={cert.slug}>

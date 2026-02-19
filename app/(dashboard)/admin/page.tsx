@@ -71,7 +71,7 @@ export default async function AdminPage() {
             />
 
             {/* Analytics Overview */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <Card className="border-border bg-card">
                     <CardContent className="pt-4">
                         <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
@@ -131,7 +131,7 @@ export default async function AdminPage() {
 
             {/* Tabs for Certifications and Leagues management */}
             <Tabs defaultValue="certifications">
-                <TabsList>
+                <TabsList className="overflow-x-auto flex-nowrap">
                     <TabsTrigger value="certifications" className="gap-1">
                         <BookOpen className="h-3 w-3" />
                         Certifications

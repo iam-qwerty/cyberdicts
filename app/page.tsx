@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -42,6 +45,7 @@ const certifications = [
 ];
 
 export default function LandingPage() {
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -51,7 +55,8 @@ export default function LandingPage() {
             <Shield className="h-6 w-6 text-primary" />
             <span className="font-bold text-lg tracking-widest">Cyberdicts</span>
           </div>
-          <div className="flex items-center gap-2">
+          {/* Desktop actions */}
+          <div className="hidden sm:flex items-center gap-2">
             <Link href="/login">
               <Button variant="ghost" size="sm">
                 Log in
@@ -64,7 +69,33 @@ export default function LandingPage() {
               </Button>
             </Link>
           </div>
+
+          {/* Mobile hamburger */}
+          <div className="sm:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? "✕" : "☰"}
+            </Button>
+          </div>
         </div>
+        {mobileOpen && (
+          <div className="sm:hidden border-t border-border bg-background px-4 py-3 flex flex-col gap-2">
+            <Link href="/login" onClick={() => setMobileOpen(false)}>
+              <Button variant="ghost" className="w-full justify-start">
+                Log in
+              </Button>
+            </Link>
+            <Link href="/signup" onClick={() => setMobileOpen(false)}>
+              <Button className="w-full justify-between">
+                <span>Get Started</span>
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        )}
       </header>
 
       {/* Hero */}
