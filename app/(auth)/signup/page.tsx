@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState, useEffect } from "react";
-import { Shield, Loader2 } from "lucide-react";
+import { Shield, Loader2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import { createClient } from "@/utils/supabase/client";
 
 export default function SignupPage() {
     const [certifications, setCertifications] = useState<Certification[]>([]);
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         async function loadCerts() {
@@ -99,15 +100,30 @@ export default function SignupPage() {
 
                     <div className="space-y-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input
-                            id="password"
-                            name="password"
-                            type="password"
-                            placeholder="••••••••"
-                            minLength={6}
-                            required
-                            disabled={isPending}
-                        />
+                        <div className="relative">
+                            <Input
+                                id="password"
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="••••••••"
+                                minLength={6}
+                                required
+                                disabled={isPending}
+                                className="pr-10"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword((v) => !v)}
+                                className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground"
+                                tabIndex={-1}
+                            >
+                                {showPassword ? (
+                                    <EyeOff className="h-4 w-4" />
+                                ) : (
+                                    <Eye className="h-4 w-4" />
+                                )}
+                            </button>
+                        </div>
                     </div>
 
                     <div className="space-y-2">
